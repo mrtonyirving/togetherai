@@ -1,0 +1,78 @@
+site_name: Regulatory Knowledge Base
+site_description: Ontologies, relations, and source registry for regulatory horizon scanning
+repo_url: https://github.com/YOUR_ORG/regulatory-kb
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - navigation.top
+    - content.action.edit
+    - search.highlight
+    - search.suggest
+    - toc.follow
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+  - attr_list
+  - def_list
+
+nav:
+  - Home: index.md
+  - Ontologies:
+    - ontologies/index.md
+    - Enforcement Actions:
+      - ontologies/enforcement-actions/index.md
+      - Sweden: ontologies/enforcement-actions/se.md
+      - Norway: ontologies/enforcement-actions/no.md
+      - Denmark: ontologies/enforcement-actions/dk.md
+      - Spain: ontologies/enforcement-actions/es.md
+    - Guidelines:
+      - ontologies/guidelines/index.md
+    - Directives:
+      - ontologies/directives/index.md
+    - Regulations:
+      - ontologies/regulations/index.md
+  - Relations:
+    - relations/index.md
+    - Relation Types: relations/relation-types.md
+  - Jurisdictions:
+    - jurisdictions/index.md
+    - Sweden: jurisdictions/se/index.md
+    - Norway: jurisdictions/no/index.md
+    - Denmark: jurisdictions/dk/index.md
+    - Spain: jurisdictions/es/index.md
+    - EU: jurisdictions/eu/index.md
+  - Sources:
+    - sources/index.md
+    - Sweden: sources/se-sources.md
+    - Norway: sources/no-sources.md
+    - Denmark: sources/dk-sources.md
+    - Spain: sources/es-sources.md
+    - EU: sources/eu-sources.md

@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "se-enforcement-action.schema.json",
+  "title": "Swedish Enforcement Action",
+  "description": "Schema for extracted Swedish enforcement action data",
+  "type": "object",
+  "required": ["title", "decision_date", "reference_number", "affected_entity", "decision_type", "summary", "affected_regulations", "area_of_infringement", "affected_processes", "severity", "key_findings"],
+  "properties": {
+    "title": { "type": "string" },
+    "decision_date": { "type": "string", "format": "date" },
+    "reference_number": { "type": "string", "pattern": "^FI Dnr \\d{2}-\\d+$" },
+    "affected_entity": {
+      "type": "object",
+      "required": ["name", "entity_type"],
+      "properties": {
+        "name": { "type": "string" },
+        "org_number": { "type": "string", "pattern": "^\\d{6}-\\d{4}$" },
+        "entity_type": { "type": "string", "enum": ["bank", "insurance_company", "fund_manager", "securities_company", "payment_institution", "e_money_institution", "credit_market_company", "other"] },
+        "license_description": { "type": "string" }
+      }
+    },
+    "decision_type": { "type": "string", "enum": ["fine", "warning", "warning_with_fine", "revocation", "remark", "injunction"] },
+    "fine_amount": {
+      "type": ["object", "null"],
+      "properties": {
+        "amount": { "type": "number" },
+        "currency": { "type": "string", "default": "SEK" }
+      }
+    },
+    "summary": { "type": "string" },
+    "affected_regulations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["regulation_id"],
+        "properties": {
+          "regulation_id": { "type": "string" },
+          "regulation_name": { "type": "string" },
+          "specific_provisions": { "type": "array", "items": { "type": "string" } },
+          "law_reference": { "type": "string" }
+        }
+      }
+    },
+    "eu_regulation_mapping": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "eu_regulation_id": { "type": "string" },
+          "eu_regulation_name": { "type": "string" },
+          "relation_type": { "type": "string", "enum": ["implements", "supplements", "amends"] }
+        }
+      }
+    },
+    "area_of_infringement": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["aml_cft", "mifid", "solvency", "insurance_distribution", "payment_services", "capital_requirements", "governance", "reporting", "consumer_protection", "market_abuse", "other"] }
+    },
+    "affected_processes": { "type": "array", "items": { "type": "string" } },
+    "severity": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+    "key_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding": { "type": "string" },
+          "regulation_ref": { "type": "string" },
+          "process_ref": { "type": "string" }
+        }
+      }
+    }
+  }
+}

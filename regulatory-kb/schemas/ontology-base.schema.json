@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "ontology-base.schema.json",
+  "title": "Ontology Base Schema",
+  "description": "Base schema that all jurisdiction-specific ontologies must satisfy",
+  "type": "object",
+  "required": ["jurisdiction", "document_type", "authority", "version", "fields"],
+  "properties": {
+    "jurisdiction": {
+      "type": "string",
+      "enum": ["SE", "NO", "DK", "ES", "EU"],
+      "description": "ISO 3166-1 alpha-2 country code"
+    },
+    "document_type": {
+      "type": "string",
+      "enum": ["enforcement-action", "guideline", "directive", "regulation"],
+      "description": "Type of regulatory document"
+    },
+    "authority": {
+      "type": "string",
+      "description": "Name of the issuing regulatory authority"
+    },
+    "authority_abbreviation": {
+      "type": "string"
+    },
+    "language": {
+      "type": "string",
+      "description": "ISO 639-1 language code"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date"
+    },
+    "fields": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/field"
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/relation"
+      }
+    }
+  },
+  "definitions": {
+    "field": {
+      "type": "object",
+      "required": ["name", "type", "required"],
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["string", "date", "number", "boolean", "enum", "array", "object"] },
+        "required": { "type": "boolean" },
+        "description": { "type": "string" },
+        "format": { "type": "string" },
+        "pattern": { "type": "string" },
+        "values": { "type": "array", "items": { "type": "string" } },
+        "default": {},
+        "sub_fields": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/field" }
+        },
+        "items": { "type": "object" },
+        "extraction": { "type": "string" },
+        "examples": { "type": "array" }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "required": ["type", "target_type"],
+      "properties": {
+        "type": { "type": "string" },
+        "target_type": { "type": "string" },
+        "target": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    }
+  }
+}
