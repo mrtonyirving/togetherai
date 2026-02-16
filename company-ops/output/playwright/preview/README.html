@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>README.md</title><style>body{font-family: ui-sans-serif,system-ui,Segoe UI,Arial;max-width:960px;margin:32px auto;padding:0 20px;line-height:1.55}h1,h2,h3{line-height:1.25}code{background:#f2f2f2;padding:2px 4px;border-radius:4px}ul{padding-left:22px}a{color:#0b5fff;text-decoration:none}a:hover{text-decoration:underline}</style></head><body><h1>Company Ops (GitHub Operating System)</h1>
+<p></p>
+<p>This repository is the operating system for internal knowledge, planning, and decisions.</p>
+<p></p>
+<p>It is designed for a small cross-functional startup (2–15 people now) and scales to larger teams by keeping governance lightweight:</p>
+<p></p>
+<ul>
+<li>Markdown-first docs.</li>
+<li>GitHub Issues for intake.</li>
+<li>GitHub Projects for planning.</li>
+<li>Pull requests for important changes.</li>
+<li>CODEOWNERS for review routing.</li>
+<li>GitHub Actions for quality and freshness checks.</li>
+</ul>
+<p></p>
+<h2>How This Repository Works</h2>
+<p></p>
+<p>1. Open an issue using a template (`bug`, `feature`, `task`, `decision`, `incident`).</p>
+<p>2. Triage into the Project board with owner, priority, and area.</p>
+<p>3. Create or update docs in `docs/` using templates in `docs/templates/`.</p>
+<p>4. Open a PR with the docs checklist.</p>
+<p>5. Merge after required owners review.</p>
+<p></p>
+<h2>Core Rules</h2>
+<p></p>
+<ul>
+<li>Keep docs close to decisions and execution.</li>
+<li>Use the templates unless there is a strong reason not to.</li>
+<li>Update section indexes when you add new docs.</li>
+<li>Do not store secrets, credentials, or regulated raw data here.</li>
+<li>Prefer short, dated updates over perfect but stale docs.</li>
+</ul>
+<p></p>
+<h2>Repository Layout</h2>
+<p></p>
+<ul>
+<li>`docs/` - handbook, policies, onboarding, product specs, architecture, runbooks, planning, hiring, customer insights.</li>
+<li>`.github/` - issue templates, PR template, CODEOWNERS, workflows.</li>
+<li>`scripts/docs/` - index checks, index generation, stale-doc scanning.</li>
+</ul>
+<p></p>
+<h2>Get Started</h2>
+<p></p>
+<ul>
+<li>Start at `/docs/start-here.md`.</li>
+<li>Use `/docs/README.md` as the navigation hub.</li>
+<li>Read `/CONTRIBUTING.md` before your first PR.</li>
+</ul>
+<p></p>
+<h2>Defaults</h2>
+<p></p>
+<ul>
+<li>Default branch: `main`.</li>
+<li>Naming for time-based docs: `YYYY-MM-DD-slug.md`.</li>
+<li>ADR naming: `ADR-XXXX-slug.md`.</li>
+<li>Required frontmatter fields: `title`, `owner`, `status`, `last_reviewed`, `tags`, `related`.</li>
+</ul>
+<p></p></body></html>

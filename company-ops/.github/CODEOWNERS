@@ -1,0 +1,24 @@
+# Replace placeholders with actual handles/teams.
+
+# Global fallback
+* @your-org/founders
+
+# Core governance docs
+/docs/policies/** @your-org/ops-lead @your-org/eng-lead
+/docs/security/** @your-org/security-owner @your-org/eng-lead
+/docs/runbooks/** @your-org/ops-lead @your-org/eng-lead
+/docs/architecture/** @your-org/eng-lead @your-org/security-owner
+
+# Product and customer docs
+/docs/product/** @your-org/product-lead @your-org/eng-lead
+/docs/customers/** @your-org/product-lead @your-org/customer-lead
+
+# People docs
+/docs/company/** @your-org/people-ops @your-org/founders
+/docs/onboarding/** @your-org/people-ops @your-org/hiring-manager
+/docs/hiring/** @your-org/people-ops @your-org/hiring-manager
+
+# Planning and meetings
+/docs/planning/** @your-org/product-lead @your-org/founders
+/docs/meetings/** @your-org/founders
+/docs/decisions/** @your-org/founders

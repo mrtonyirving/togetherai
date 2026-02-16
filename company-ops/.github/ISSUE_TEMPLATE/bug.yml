@@ -1,0 +1,38 @@
+name: Bug
+description: Report a defect affecting expected behavior.
+title: "[Bug]: "
+labels: ["type:bug"]
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What happened vs expected behavior?
+    validations:
+      required: true
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: Who/what is affected?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction Steps
+      description: Provide minimal steps.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Evidence
+      description: Error messages, screenshots, links.
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options: [p0, p1, p2, p3]
+    validations:
+      required: true

@@ -1,0 +1,36 @@
+name: Generate Docs Index
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 13 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Regenerate index
+        run: node scripts/docs/generate-index.mjs
+
+      - name: Create Pull Request if changed
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: codex/docs-index-refresh
+          commit-message: "docs: regenerate docs index"
+          title: "docs: regenerate docs index"
+          body: |
+            Automated refresh of `docs/_index.generated.md`.
+          add-paths: |
+            docs/_index.generated.md

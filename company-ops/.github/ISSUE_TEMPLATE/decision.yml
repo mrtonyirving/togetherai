@@ -1,0 +1,29 @@
+name: Decision
+description: Request a documented decision.
+title: "[Decision]: "
+labels: ["type:decision", "needs-decision"]
+body:
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What decision is needed and why now?
+    validations:
+      required: true
+  - type: textarea
+    id: options
+    attributes:
+      label: Options
+      description: List viable options with tradeoffs.
+    validations:
+      required: true
+  - type: input
+    id: due
+    attributes:
+      label: Decision Due Date
+      placeholder: YYYY-MM-DD
+  - type: textarea
+    id: recommendation
+    attributes:
+      label: Recommendation
+      description: Proposed default option.

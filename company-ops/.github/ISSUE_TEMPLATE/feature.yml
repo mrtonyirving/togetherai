@@ -1,0 +1,38 @@
+name: Feature
+description: Propose a new capability.
+title: "[Feature]: "
+labels: ["type:feature"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user/customer problem are we solving?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Solution
+      description: High-level solution idea.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: In-scope and out-of-scope.
+  - type: textarea
+    id: success
+    attributes:
+      label: Success Metrics
+      description: How do we know this worked?
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - area:product
+        - area:engineering
+        - area:customers
+        - area:ops

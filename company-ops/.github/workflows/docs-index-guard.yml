@@ -1,0 +1,28 @@
+name: Docs Index Guard
+
+on:
+  pull_request:
+    paths:
+      - "docs/**"
+      - "scripts/docs/check-indexes.mjs"
+
+jobs:
+  check-indexes:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify changed docs are indexed
+        run: |
+          node scripts/docs/check-indexes.mjs \
+            --changed-only \
+            --base "${{ github.event.pull_request.base.sha }}" \
+            --head "${{ github.event.pull_request.head.sha }}"
