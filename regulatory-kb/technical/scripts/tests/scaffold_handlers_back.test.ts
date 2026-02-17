@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import fs from 'fs-extra';
 import path from 'node:path';
 import test from 'node:test';
+import { fileURLToPath } from 'node:url';
 
 import {
   type CheckboxChoice,
@@ -15,6 +16,9 @@ import {
 } from '../lib/scaffold/handlers.js';
 import type { ScaffoldCatalog } from '../lib/scaffold_catalog.js';
 import { withTempCwd, writeFixtureFile } from './test_fs.js';
+
+const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = path.resolve(TEST_DIR, '../../..');
 
 type Step<TConfig, TValue> = TValue | ((config: TConfig) => TValue);
 type SelectConfig = {
@@ -127,6 +131,22 @@ function sampleCatalog(): ScaffoldCatalog {
   };
 }
 
+async function seedReferenceTemplates(root: string): Promise<void> {
+  const templates = [
+    'library/ontologies/document-types/legislation/jurisdictions/Sweden/law.json',
+    'library/ontologies/document-types/legislation/jurisdictions/EU/law.json'
+  ];
+
+  for (const template of templates) {
+    const from = path.join(REPO_ROOT, template);
+    const to = path.join(root, template);
+    if (await fs.pathExists(from)) {
+      await fs.ensureDir(path.dirname(to));
+      await fs.copyFile(from, to);
+    }
+  }
+}
+
 async function seedCommonFixtures(root: string): Promise<void> {
   await writeFixtureFile(root, 'library/taxonomy/index_concepts.md', '# Concept Index');
   await writeFixtureFile(root, 'library/taxonomy/index_jurisdiction.md', '# Jurisdiction Index');
@@ -153,6 +173,8 @@ async function seedCommonFixtures(root: string): Promise<void> {
 - Concept: [general_risk_assessment](AML/concepts/general_risk_assessment/general_risk_assessment.md)
 `
   );
+
+  await seedReferenceTemplates(root);
 }
 
 test('scaffoldConcept supports back from references to parent custom input', async () => {
@@ -249,19 +271,27 @@ test('scaffoldConcept rejects existing concept files that use legacy reference f
   });
 });
 
-test('scaffoldProvision supports back through topics and custom topics', async () => {
+test('scaffoldProvision supports back through topics, create concept, and custom topics', async () => {
   await withTempCwd('scaffold-handlers-back-provision-', async (root) => {
     await seedCommonFixtures(root);
 
     const prompt = new MockPromptAdapter({
       select: [
+        // Address flow
+        (config: SelectConfig) => pickChoiceByName(config, 'Yes'),
+        (config: SelectConfig) => pickChoiceByName(config, 'Sweden (SE)'),
         (config: SelectConfig) => pickChoiceByName(config, '2017:630'),
         (config: SelectConfig) => pickChoiceByName(config, '2017:630'),
         (config: SelectConfig) => pickChoiceByName(config, '1'),
         (config: SelectConfig) => pickChoiceByName(config, '1'),
         (config: SelectConfig) => pickChoiceByName(config, '1'),
-        (config: SelectConfig) => pickChoiceByName(config, '1'),
-        (config: SelectConfig) => pickChoiceByName(config, '2')
+        (config: SelectConfig) => pickChoiceByName(config, '2'),
+        // createConcept: No (after first successful topics pick)
+        (config: SelectConfig) => pickChoiceByName(config, 'No'),
+        // createConcept: Back (after backing from customTopics)
+        (config: SelectConfig) => pickChoiceByName(config, 'Back'),
+        // createConcept: No (after second successful topics pick)
+        (config: SelectConfig) => pickChoiceByName(config, 'No')
       ],
       checkbox: [
         (config: { message: string; choices: Array<CheckboxChoice<unknown>> }) =>
@@ -281,7 +311,8 @@ test('scaffoldProvision supports back through topics and custom topics', async (
       'library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_1/Level_3/Stycke_1/Level_4/Punkt_2/Punkt_2.md'
     );
     const provision = await fs.readFile(provisionPath, 'utf8');
-    assert.match(provision, /- punkt: 2/);
+    assert.match(provision, /^## references$/m);
+    assert.match(provision, /- authority: RD/);
     assert.match(provision, /- custom_concept/);
     assert.match(provision, /- general_risk_assessment/);
   });

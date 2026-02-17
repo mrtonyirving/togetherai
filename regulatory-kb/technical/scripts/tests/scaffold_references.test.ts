@@ -79,10 +79,8 @@ test('reference formatting de-duplicates and sorts strict ref metadata blocks', 
     '### ref_1',
     '',
     '- jurisdiction: SE',
-    '- entity: RD',
+    '- authority: RD',
     '- law: 2017:630',
-    '- level: 2',
-    '- level_label: Paragraf',
     '- chapter: 1',
     '- paragraph: 1',
     '- address: SE,RD,2017:630,k1,p1',
@@ -90,10 +88,8 @@ test('reference formatting de-duplicates and sorts strict ref metadata blocks', 
     '### ref_2',
     '',
     '- jurisdiction: SE',
-    '- entity: RD',
+    '- authority: RD',
     '- law: 2017:630',
-    '- level: 2',
-    '- level_label: Paragraf',
     '- chapter: 1',
     '- paragraph: 2',
     '- address: SE,RD,2017:630,k1,p2',
@@ -142,20 +138,16 @@ test('extractAddressesFromReferenceBody parses strict metadata block references'
 ### ref_1
 
 - jurisdiction: SE
-- entity: RD
+- authority: RD
 - law: 2017:630
-- level: 1
-- level_label: Kapitel
 - chapter: 2
 - address: SE,RD,2017:630,k2
 
 ### ref_2
 
 - jurisdiction: SE
-- entity: RD
+- authority: RD
 - law: 2017:630
-- level: 2
-- level_label: Paragraf
 - chapter: 3
 - paragraph: 1
 - address: SE,RD,2017:630,k3,p1

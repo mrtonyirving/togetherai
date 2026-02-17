@@ -349,13 +349,17 @@ function extractAddressesFromEnforcementSection(sectionBody: string): string[] {
       `statutory_references.${name}`
     );
 
-    if (fields.jurisdiction && fields.entity && fields.level && fields.level_label) {
-      const normalized = validateReferenceMetadataBlock(
-        fields,
-        `statutory_references.${name}`
-      );
-      addresses.push(normalized.address);
-      continue;
+    if (fields.jurisdiction && fields.address) {
+      try {
+        const normalized = validateReferenceMetadataBlock(
+          fields,
+          `statutory_references.${name}`
+        );
+        addresses.push(normalized.address);
+        continue;
+      } catch {
+        // Fall through and try address-only handling below.
+      }
     }
 
     const address = fields.address;

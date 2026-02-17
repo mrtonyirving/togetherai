@@ -6,19 +6,12 @@ import {
   checkboxWithBack,
   inputValidatedWithBack,
   isBackSentinel,
-  selectOptionalNumberOrCustomWithBack,
   selectOrCustomWithBack,
+  selectYesNoBack,
   type PromptAdapter,
   type SelectChoice
 } from '../cli_prompts.js';
 import {
-  extractLawCodeCandidates,
-  findJurisdictionCatalog,
-  findLawCatalog,
-  getParagraphNumbers,
-  getPunktNumbers,
-  getStyckeNumbers,
-  type LawCatalog,
   type ScaffoldCatalog
 } from '../scaffold_catalog.js';
 import { toPosixRelative } from '../io.js';
@@ -41,7 +34,6 @@ import {
 } from './paths.js';
 import {
   ensureProvisionFile,
-  levelName,
   provisionHierarchyFromAddress
 } from './provision_files.js';
 import {
@@ -54,9 +46,6 @@ import {
   parseAndValidateConceptId,
   parseAndValidateConceptSlug,
   parseCsv,
-  toProvisionAddress,
-  parseRequiredPositiveIntegerComponent,
-  SWEDEN_LAW_DEFAULT,
   toConceptId,
   validateDecisionType,
   validateFineFlag
@@ -64,7 +53,6 @@ import {
 import {
   loadKnownConceptIds,
   promptConceptsCoveredWithBack,
-  promptLawCodeWithBack,
   promptStatutoryReferencesWithBack
 } from './prompts.js';
 import type { DecisionType } from './types.js';
@@ -99,7 +87,7 @@ function mergeReferencesIntoConceptFile(existing: string, newAddresses: string[]
 export async function scaffoldConcept(
   prompt: PromptAdapter,
   catalog: ScaffoldCatalog
-): Promise<void> {
+): Promise<string | undefined> {
   const noParent = '__none__' as const;
   const customParent = '__custom__' as const;
   type ParentSelection = string | typeof noParent | typeof customParent;
@@ -125,7 +113,7 @@ export async function scaffoldConcept(
       });
 
       if (isBackSentinel(slugResult)) {
-        continue;
+        return undefined;
       }
       slug = parseAndValidateConceptSlug(slugResult);
       step = 'parentSelection';
@@ -325,258 +313,44 @@ export async function scaffoldConcept(
 
   console.log(`Updated ${toPosixRelative(indexConceptsPath())}`);
   console.log(`Ensured ${toPosixRelative(conceptFile)}`);
+
+  return conceptId;
 }
 
 export async function scaffoldProvision(
   prompt: PromptAdapter,
   catalog: ScaffoldCatalog
 ): Promise<void> {
-  const swedenCatalog = findJurisdictionCatalog(catalog, 'Sweden');
-  const swedenLaws = swedenCatalog?.laws ?? [];
-  const lawChoices = toLawChoiceMap(swedenLaws);
-  const topicChoices = dedupeAndSort(
+  let topicChoices = dedupeAndSort(
     catalog.conceptSlugs.map((conceptSlug) => toConceptId(conceptSlug))
   );
 
-  type Step =
-    | 'lawName'
-    | 'lawCode'
-    | 'chapter'
-    | 'paragraph'
-    | 'stycke'
-    | 'punkt'
-    | 'topics'
-    | 'customTopics'
-    | 'done';
-
-  let step: Step = 'lawName';
-  let lawSelection = '';
-  let selectedLawCatalog: LawCatalog | undefined;
-  let lawName = '';
-  let lawCode = '';
-  let chapter: number | undefined;
-  let paragraph: number | undefined;
-  let stycke: number | undefined;
-  let punkt: number | undefined;
+  type Step = 'references' | 'topics' | 'createConcept' | 'customTopics' | 'done';
+  let step: Step = 'references';
+  let addresses: string[] = [];
   let selectedTopics: string[] = [];
   let customTopicsInput = '';
-  let stepBeforeTopics: 'paragraph' | 'stycke' | 'punkt' = 'paragraph';
 
   while (step !== 'done') {
-    if (step === 'lawName') {
-      if (lawChoices.size > 0) {
-        const lawResult = await selectOrCustomWithBack(prompt, {
-          message: 'Law display name:',
-          options: [...lawChoices.keys()],
-          customInputMessage: 'Law display name: ',
-          customLabel: 'Custom law...',
-          validateCustom: (value) =>
-            value.trim().length === 0 ? 'Law display name is required' : undefined,
-          defaultValue: lawSelection || lawName || undefined
-        });
-
-        if (isBackSentinel(lawResult)) {
-          continue;
-        }
-
-        const previousLawName = lawName;
-        lawSelection = lawResult;
-        selectedLawCatalog = lawChoices.get(lawResult);
-        lawName = selectedLawCatalog?.name ?? lawResult.trim();
-
-        if (previousLawName && previousLawName !== lawName) {
-          lawCode = '';
-          chapter = undefined;
-          paragraph = undefined;
-          stycke = undefined;
-          punkt = undefined;
-        }
-      } else {
-        const lawResult = await inputValidatedWithBack(prompt, {
-          message: `Law display name [${SWEDEN_LAW_DEFAULT}]: `,
-          defaultValue: lawName || SWEDEN_LAW_DEFAULT,
-          validate: (value) =>
-            value.trim().length === 0 ? 'Law display name is required' : undefined
-        });
-
-        if (isBackSentinel(lawResult)) {
-          continue;
-        }
-
-        const previousLawName = lawName;
-        lawName = lawResult;
-        lawSelection = lawResult;
-        selectedLawCatalog = findLawCatalog(swedenCatalog, lawName);
-        if (previousLawName && previousLawName !== lawName) {
-          lawCode = '';
-          chapter = undefined;
-          paragraph = undefined;
-          stycke = undefined;
-          punkt = undefined;
-        }
-      }
-
-      step = 'lawCode';
-      continue;
-    }
-
-    if (step === 'lawCode') {
-      const lawCodeResult = await promptLawCodeWithBack(
-        prompt,
-        [
-          ...extractLawCodeCandidates(lawName),
-          ...(selectedLawCatalog?.lawCodeCandidates ?? [])
-        ],
-        {
-          message: 'Law code:',
-          customInputMessage: 'Law code (e.g. 2017:630): ',
-          defaultValue: lawCode || undefined
-        }
-      );
-
-      if (isBackSentinel(lawCodeResult)) {
-        step = 'lawName';
-        continue;
-      }
-
-      if (lawCode && lawCode !== lawCodeResult) {
-        chapter = undefined;
-        paragraph = undefined;
-        stycke = undefined;
-        punkt = undefined;
-      }
-      lawCode = lawCodeResult;
-      step = 'chapter';
-      continue;
-    }
-
-    if (step === 'chapter') {
-      const chapterResult = await selectOptionalNumberOrCustomWithBack(prompt, {
-        message: 'Chapter number:',
-        existingValues: selectedLawCatalog?.chapterNumbers ?? [],
-        required: true,
-        parseCustom: (value) =>
-          parseRequiredPositiveIntegerComponent(value, 'Chapter', 'k'),
-        customInputMessage: 'Chapter number: ',
-        defaultValue: chapter
+    if (step === 'references') {
+      const referenceResult = await promptStatutoryReferencesWithBack(prompt, catalog, {
+        firstQuestion: 'Add statutory reference now?',
+        requireAtLeastOne: true,
+        requireParagraph: false,
+        initialAddresses: addresses,
+        maxReferences: 1
       });
 
-      if (isBackSentinel(chapterResult)) {
-        step = 'lawCode';
+      if (isBackSentinel(referenceResult)) {
         continue;
       }
-      if (chapterResult === undefined) {
-        throw new Error('Chapter number must be a positive integer');
+      addresses = referenceResult;
+      if (addresses.length !== 1) {
+        throw new Error('Exactly one statutory reference is required for provision scaffolding');
       }
-
-      if (chapter !== chapterResult) {
-        paragraph = undefined;
-        stycke = undefined;
-        punkt = undefined;
-      }
-      chapter = chapterResult;
-      step = 'paragraph';
-      continue;
-    }
-
-    if (step === 'paragraph') {
-      if (chapter === undefined) {
-        throw new Error('Chapter number must be a positive integer');
-      }
-
-      const paragraphResult = await selectOptionalNumberOrCustomWithBack(prompt, {
-        message: 'Paragraph number (optional):',
-        existingValues: getParagraphNumbers(selectedLawCatalog, chapter),
-        parseCustom: (value) =>
-          parseRequiredPositiveIntegerComponent(value, 'Paragraph', 'p'),
-        customInputMessage: 'Paragraph number (optional): ',
-        defaultValue: paragraph
-      });
-
-      if (isBackSentinel(paragraphResult)) {
-        step = 'chapter';
-        continue;
-      }
-
-      if (paragraph !== paragraphResult) {
-        stycke = undefined;
-        punkt = undefined;
-      }
-      paragraph = paragraphResult;
-      if (paragraph === undefined) {
-        stycke = undefined;
-        punkt = undefined;
-        stepBeforeTopics = 'paragraph';
-        step = 'topics';
-      } else {
-        step = 'stycke';
-      }
-      continue;
-    }
-
-    if (step === 'stycke') {
-      if (chapter === undefined || paragraph === undefined) {
-        stepBeforeTopics = 'paragraph';
-        step = 'topics';
-        continue;
-      }
-
-      const styckeResult = await selectOptionalNumberOrCustomWithBack(prompt, {
-        message: 'Stycke number (optional):',
-        existingValues: getStyckeNumbers(selectedLawCatalog, chapter, paragraph),
-        parseCustom: (value) =>
-          parseRequiredPositiveIntegerComponent(value, 'Stycke', 's'),
-        customInputMessage: 'Stycke number (optional): ',
-        defaultValue: stycke
-      });
-
-      if (isBackSentinel(styckeResult)) {
-        step = 'paragraph';
-        continue;
-      }
-
-      if (stycke !== styckeResult) {
-        punkt = undefined;
-      }
-      stycke = styckeResult;
-      if (stycke === undefined) {
-        punkt = undefined;
-        stepBeforeTopics = 'stycke';
-        step = 'topics';
-      } else {
-        step = 'punkt';
-      }
-      continue;
-    }
-
-    if (step === 'punkt') {
-      if (chapter === undefined || paragraph === undefined || stycke === undefined) {
-        stepBeforeTopics = 'stycke';
-        step = 'topics';
-        continue;
-      }
-
-      const punktResult = await selectOptionalNumberOrCustomWithBack(prompt, {
-        message: 'Punkt number (optional):',
-        existingValues: getPunktNumbers(selectedLawCatalog, chapter, paragraph, stycke),
-        parseCustom: (value) =>
-          parseRequiredPositiveIntegerComponent(value, 'Punkt', 'pt'),
-        customInputMessage: 'Punkt number (optional): ',
-        defaultValue: punkt
-      });
-
-      if (isBackSentinel(punktResult)) {
-        step = 'stycke';
-        continue;
-      }
-
-      punkt = punktResult;
-      stepBeforeTopics = 'punkt';
       step = 'topics';
       continue;
-    }
-
-    if (step === 'topics') {
+    } else if (step === 'topics') {
       if (topicChoices.length > 0) {
         const topicResult = await checkboxWithBack(prompt, {
           message: 'Topics (existing Concept IDs):',
@@ -589,7 +363,7 @@ export async function scaffoldProvision(
         });
 
         if (isBackSentinel(topicResult)) {
-          step = stepBeforeTopics;
+          step = 'references';
           continue;
         }
         selectedTopics = topicResult;
@@ -597,7 +371,35 @@ export async function scaffoldProvision(
         selectedTopics = [];
       }
 
-      step = 'customTopics';
+      step = 'createConcept';
+      continue;
+    } else if (step === 'createConcept') {
+      const shouldCreate = await selectYesNoBack(prompt, {
+        message: 'Create a new concept?',
+        defaultValue: false
+      });
+
+      if (isBackSentinel(shouldCreate)) {
+        step = topicChoices.length > 0 ? 'topics' : 'references';
+        continue;
+      }
+
+      if (!shouldCreate) {
+        step = 'customTopics';
+        continue;
+      }
+
+      const newConceptId = await scaffoldConcept(prompt, catalog);
+      if (newConceptId) {
+        if (!selectedTopics.includes(newConceptId)) {
+          selectedTopics.push(newConceptId);
+        }
+        topicChoices = dedupeAndSort([...topicChoices, newConceptId]);
+        if (!catalog.conceptSlugs.includes(newConceptId)) {
+          catalog.conceptSlugs.push(newConceptId);
+          catalog.conceptSlugs.sort((a, b) => a.localeCompare(b));
+        }
+      }
       continue;
     }
 
@@ -607,7 +409,7 @@ export async function scaffoldProvision(
     });
 
     if (isBackSentinel(customTopicsResult)) {
-      step = topicChoices.length > 0 ? 'topics' : stepBeforeTopics;
+      step = 'createConcept';
       continue;
     }
 
@@ -615,8 +417,8 @@ export async function scaffoldProvision(
     step = 'done';
   }
 
-  if (!lawName || !lawCode || chapter === undefined) {
-    throw new Error('Law display name, law code, and chapter are required');
+  if (addresses.length !== 1) {
+    throw new Error('Exactly one statutory reference is required for provision scaffolding');
   }
 
   const customTopics = parseCsv(customTopicsInput);
@@ -626,66 +428,22 @@ export async function scaffoldProvision(
     )
   );
 
+  const address = addresses[0];
   const jurisdictions = await readJurisdictionIndex();
-  let sweden = jurisdictions.find((entry) => entry.name === 'Sweden');
-  if (!sweden) {
-    sweden = { name: 'Sweden', laws: [] };
-    jurisdictions.push(sweden);
-  }
-
-  let law = sweden.laws.find((entry) => entry.name === lawName);
-  if (!law) {
-    law = { name: lawName, provisions: [] };
-    sweden.laws.push(law);
-  }
-
-  const level1 = ensureNode(law.provisions, 1, levelName(1, chapter));
-  let current = level1;
-  if (paragraph !== undefined) {
-    current = ensureNode(current.children, 2, levelName(2, paragraph));
-  }
-  if (stycke !== undefined) {
-    current = ensureNode(current.children, 3, levelName(3, stycke));
-  }
-  if (punkt !== undefined) {
-    current = ensureNode(current.children, 4, levelName(4, punkt));
-  }
-
-  void current;
+  const target = upsertJurisdictionHierarchyForAddress(jurisdictions, address);
 
   await writeJurisdictionIndex(jurisdictions);
 
-  const address = toProvisionAddress(lawCode, chapter, paragraph, stycke, punkt);
   const filePath = await ensureProvisionFile(
     {
       address,
-      lawName,
-      jurisdictionName: 'Sweden',
+      lawName: target.lawName,
+      jurisdictionName: target.jurisdictionName,
       topics
     }
   );
   console.log(`Updated ${toPosixRelative(indexJurisdictionPath())}`);
   console.log(`Ensured ${toPosixRelative(filePath)}`);
-}
-
-function formatLawChoiceName(law: LawCatalog): string {
-  if (law.lawCodeCandidates.length === 0) {
-    return law.name;
-  }
-
-  const primaryCode = law.lawCodeCandidates[0];
-  if (law.name.includes(primaryCode)) {
-    return law.name;
-  }
-  return `${law.name} (${primaryCode})`;
-}
-
-function toLawChoiceMap(laws: LawCatalog[]): Map<string, LawCatalog> {
-  const map = new Map<string, LawCatalog>();
-  for (const law of laws) {
-    map.set(formatLawChoiceName(law), law);
-  }
-  return map;
 }
 
 export async function validateConceptIdsExist(conceptIds: string[]): Promise<string[]> {

@@ -3,9 +3,8 @@ import path from 'node:path';
 
 import { repoPath } from '../io.js';
 import {
-  formatReferenceMetadataLines,
+  formatReferenceBlocksFromAddresses,
   referenceHierarchyFromAddress,
-  referenceMetadataFromCanonicalAddress
 } from '../reference_contract.js';
 
 export function levelLabel(level: number): string {
@@ -71,9 +70,7 @@ export async function ensureProvisionFile(
     ? await fs.readFile(leafFile, 'utf8')
     : '';
   if (existing.trim().length === 0) {
-    const metadata = formatReferenceMetadataLines(
-      referenceMetadataFromCanonicalAddress(input.address)
-    );
+    const references = formatReferenceBlocksFromAddresses([input.address]);
     const topicLines = Array.from(
       new Set(input.topics.map((topic) => topic.trim()).filter(Boolean))
     )
@@ -83,8 +80,8 @@ export async function ensureProvisionFile(
     const content = [
       `# ${leaf.name}`,
       '',
-      '## metadata',
-      ...metadata,
+      '## references',
+      ...references,
       '',
       '## topics',
       ...topicLines,

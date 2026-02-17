@@ -5,7 +5,7 @@ import {
 
 export interface ParsedSwedishReference {
   jurisdiction: 'SE';
-  entity: 'RD';
+  authority: 'RD';
   canonical: string;
   law: string;
   chapter: number;
@@ -235,7 +235,7 @@ function parseSwedishCanonical(address: string, context: string): ParsedSwedishR
 
   return {
     jurisdiction: 'SE',
-    entity: 'RD',
+    authority: 'RD',
     canonical: normalized,
     law: match[1],
     chapter: Number.parseInt(match[2], 10),
@@ -493,7 +493,7 @@ function validateSwedishMetadata(
   metadata: Record<string, string>,
   context: string
 ): Record<string, string> {
-  const requiredBase = ['jurisdiction', 'entity', 'law', 'level', 'level_label', 'chapter', 'address'];
+  const requiredBase = ['jurisdiction', 'authority', 'law', 'chapter', 'address'];
   for (const key of requiredBase) {
     if (!(key in metadata) || metadata[key].length === 0) {
       fail(context, `missing required key '${key}'`);
@@ -504,9 +504,9 @@ function validateSwedishMetadata(
   if (jurisdiction !== 'SE') {
     fail(context, `jurisdiction must be 'SE'`);
   }
-  const entity = metadata.entity.toUpperCase();
-  if (entity !== 'RD') {
-    fail(context, `entity must be 'RD'`);
+  const authority = metadata.authority.toUpperCase();
+  if (authority !== 'RD') {
+    fail(context, `authority must be 'RD'`);
   }
 
   const law = metadata.law;
@@ -514,41 +514,16 @@ function validateSwedishMetadata(
     fail(context, "law must match pattern 'YYYY:NNN'");
   }
 
-  const level = parsePositiveInteger(metadata.level, context, 'level');
-  if (level < 1 || level > 4) {
-    fail(context, 'level must be between 1 and 4 for Sweden');
-  }
-
   const chapter = parsePositiveInteger(metadata.chapter, context, 'chapter');
   const paragraph = parseOptionalPositiveInteger(metadata.paragraph, context, 'paragraph');
   const stycke = parseOptionalPositiveInteger(metadata.stycke, context, 'stycke');
   const punkt = parseOptionalPositiveInteger(metadata.punkt, context, 'punkt');
 
-  if (level >= 2 && paragraph === undefined) {
-    fail(context, `paragraph is required for level=${level}`);
+  if (stycke !== undefined && paragraph === undefined) {
+    fail(context, 'stycke requires paragraph');
   }
-  if (level < 2 && paragraph !== undefined) {
-    fail(context, 'paragraph is not allowed for level=1');
-  }
-
-  if (level >= 3 && stycke === undefined) {
-    fail(context, `stycke is required for level=${level}`);
-  }
-  if (level < 3 && stycke !== undefined) {
-    fail(context, `stycke is not allowed for level=${level}`);
-  }
-
-  if (level >= 4 && punkt === undefined) {
-    fail(context, `punkt is required for level=${level}`);
-  }
-  if (level < 4 && punkt !== undefined) {
-    fail(context, `punkt is not allowed for level=${level}`);
-  }
-
-  const expectedLabel =
-    level === 1 ? 'Kapitel' : level === 2 ? 'Paragraf' : level === 3 ? 'Stycke' : 'Punkt';
-  if (metadata.level_label !== expectedLabel) {
-    fail(context, `level_label must be '${expectedLabel}' for level=${level}`);
+  if (punkt !== undefined && stycke === undefined) {
+    fail(context, 'punkt requires stycke');
   }
 
   const canonical = toSwedishCanonical(law, chapter, paragraph, stycke, punkt);
@@ -562,10 +537,8 @@ function validateSwedishMetadata(
 
   const normalized: Record<string, string> = {
     jurisdiction: 'SE',
-    entity: 'RD',
+    authority: 'RD',
     law,
-    level: String(level),
-    level_label: expectedLabel,
     chapter: String(chapter),
     address: canonical
   };
@@ -796,10 +769,8 @@ export function referenceMetadataFromCanonicalAddress(address: string): Record<s
   if (parsed.jurisdiction === 'SE') {
     const metadata: Record<string, string> = {
       jurisdiction: 'SE',
-      entity: 'RD',
+      authority: 'RD',
       law: parsed.law,
-      level: String(parsed.level),
-      level_label: parsed.levelLabel,
       chapter: String(parsed.chapter),
       address: parsed.canonical
     };

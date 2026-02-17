@@ -2,13 +2,11 @@
   "schema_version": "2.0",
   "document_type": "legislation-reference",
   "jurisdiction": "SE",
-  "entity": "RD",
+  "authority": "RD",
   "metadata_key_order": [
     "jurisdiction",
-    "entity",
+    "authority",
     "law",
-    "level",
-    "level_label",
     "chapter",
     "paragraph",
     "stycke",
@@ -22,13 +20,8 @@
     "additionalProperties": false,
     "properties": {
       "jurisdiction": { "type": "string", "const": "SE" },
-      "entity": { "type": "string", "const": "RD" },
+      "authority": { "type": "string", "const": "RD" },
       "law": { "type": "string", "pattern": "^\\d{4}:\\d+$" },
-      "level": { "type": "integer", "minimum": 1, "maximum": 9 },
-      "level_label": {
-        "type": "string",
-        "enum": ["Kapitel", "Paragraf", "Stycke", "Punkt"]
-      },
       "chapter": { "type": "integer", "minimum": 1 },
       "paragraph": { "type": "integer", "minimum": 1 },
       "stycke": { "type": "integer", "minimum": 1 },
@@ -40,63 +33,23 @@
     },
     "required": [
       "jurisdiction",
-      "entity",
+      "authority",
       "law",
-      "level",
-      "level_label",
       "chapter",
       "address"
     ],
     "allOf": [
       {
-        "if": {
-          "properties": { "level": { "const": 1 } },
-          "required": ["level"]
-        },
-        "then": {
-          "properties": { "level_label": { "const": "Kapitel" } },
-          "not": {
-            "anyOf": [
-              { "required": ["paragraph"] },
-              { "required": ["stycke"] },
-              { "required": ["punkt"] }
-            ]
-          }
-        }
+        "if": { "required": ["paragraph"] },
+        "then": { "required": ["chapter"] }
       },
       {
-        "if": {
-          "properties": { "level": { "const": 2 } },
-          "required": ["level"]
-        },
-        "then": {
-          "required": ["paragraph"],
-          "properties": { "level_label": { "const": "Paragraf" } },
-          "not": {
-            "anyOf": [{ "required": ["stycke"] }, { "required": ["punkt"] }]
-          }
-        }
+        "if": { "required": ["stycke"] },
+        "then": { "required": ["paragraph"] }
       },
       {
-        "if": {
-          "properties": { "level": { "const": 3 } },
-          "required": ["level"]
-        },
-        "then": {
-          "required": ["paragraph", "stycke"],
-          "properties": { "level_label": { "const": "Stycke" } },
-          "not": { "required": ["punkt"] }
-        }
-      },
-      {
-        "if": {
-          "properties": { "level": { "const": 4 } },
-          "required": ["level"]
-        },
-        "then": {
-          "required": ["paragraph", "stycke", "punkt"],
-          "properties": { "level_label": { "const": "Punkt" } }
-        }
+        "if": { "required": ["punkt"] },
+        "then": { "required": ["stycke"] }
       }
     ]
   }

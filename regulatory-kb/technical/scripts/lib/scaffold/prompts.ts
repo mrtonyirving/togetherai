@@ -592,24 +592,28 @@ export async function promptStatutoryReferences(
     firstQuestion: string;
     requireAtLeastOne: boolean;
     requireParagraph?: boolean;
+    maxReferences?: number;
   }
 ): Promise<string[]> {
   const addresses: string[] = [];
+  const maxReferences = Math.max(1, options.maxReferences ?? Number.POSITIVE_INFINITY);
   let shouldAdd = await prompt.confirm({
     message: options.firstQuestion,
     defaultValue: false
   });
 
-  while (shouldAdd) {
+  while (shouldAdd && addresses.length < maxReferences) {
     addresses.push(
       await promptSwedishAddress(prompt, catalog, {
         requireParagraph: options.requireParagraph ?? false
       })
     );
-    shouldAdd = await prompt.confirm({
-      message: 'Add another reference?',
-      defaultValue: false
-    });
+    if (addresses.length < maxReferences) {
+      shouldAdd = await prompt.confirm({
+        message: 'Add another reference?',
+        defaultValue: false
+      });
+    }
   }
 
   if (options.requireAtLeastOne && addresses.length === 0) {
@@ -627,15 +631,17 @@ export async function promptStatutoryReferencesWithBack(
     requireAtLeastOne: boolean;
     requireParagraph?: boolean;
     initialAddresses?: string[];
+    maxReferences?: number;
   }
 ): Promise<string[] | typeof BACK_SENTINEL> {
+  const maxReferences = Math.max(1, options.maxReferences ?? Number.POSITIVE_INFINITY);
   const addresses = Array.from(
     new Set(
       (options.initialAddresses ?? [])
         .map((entry) => entry.trim())
         .filter(Boolean)
     )
-  );
+  ).slice(0, maxReferences);
 
   type Step = 'initialDecision' | 'addressEntry' | 'continueDecision' | 'done';
   type PreviousDecision = 'initialDecision' | 'continueDecision';
@@ -645,6 +651,11 @@ export async function promptStatutoryReferencesWithBack(
 
   while (step !== 'done') {
     if (step === 'initialDecision') {
+      if (addresses.length >= maxReferences) {
+        step = 'done';
+        continue;
+      }
+
       const shouldAdd = await selectYesNoBack(prompt, {
         message: options.firstQuestion,
         defaultValue: addresses.length > 0
@@ -680,7 +691,7 @@ export async function promptStatutoryReferencesWithBack(
       } else {
         addresses.push(address);
       }
-      step = 'continueDecision';
+      step = addresses.length >= maxReferences ? 'done' : 'continueDecision';
       continue;
     }
 

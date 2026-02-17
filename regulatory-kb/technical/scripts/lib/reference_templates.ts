@@ -4,14 +4,26 @@ import { repoPath, toPosixRelative } from './io.js';
 
 export type JurisdictionCode = 'SE' | 'EU';
 
-export interface JurisdictionReferenceTemplate {
+interface BaseJurisdictionReferenceTemplate {
   schema_version: string;
   document_type: string;
-  jurisdiction: JurisdictionCode;
-  entity: 'RD';
   metadata_key_order: string[];
   reference_schema: Record<string, unknown>;
 }
+
+export interface SwedenReferenceTemplate extends BaseJurisdictionReferenceTemplate {
+  jurisdiction: 'SE';
+  authority: 'RD';
+}
+
+export interface EuReferenceTemplate extends BaseJurisdictionReferenceTemplate {
+  jurisdiction: 'EU';
+  entity: 'RD';
+}
+
+export type JurisdictionReferenceTemplate =
+  | SwedenReferenceTemplate
+  | EuReferenceTemplate;
 
 const TEMPLATE_PATHS: Record<JurisdictionCode, string> = {
   SE: repoPath(
@@ -66,7 +78,6 @@ function parseTemplate(
   const schemaVersion = String(record.schema_version ?? '').trim();
   const documentType = String(record.document_type ?? '').trim();
   const templateJurisdiction = String(record.jurisdiction ?? '').trim().toUpperCase();
-  const entity = String(record.entity ?? '').trim().toUpperCase();
   const metadataKeyOrder = Array.isArray(record.metadata_key_order)
     ? record.metadata_key_order
         .filter((entry): entry is string => typeof entry === 'string')
@@ -86,9 +97,6 @@ function parseTemplate(
       `${toPosixRelative(filePath)} has jurisdiction '${templateJurisdiction}', expected '${jurisdiction}'`
     );
   }
-  if (entity !== 'RD') {
-    throw new Error(`${toPosixRelative(filePath)} must define entity 'RD'`);
-  }
   if (metadataKeyOrder.length === 0) {
     throw new Error(`${toPosixRelative(filePath)} must define 'metadata_key_order'`);
   }
@@ -96,13 +104,33 @@ function parseTemplate(
     throw new Error(`${toPosixRelative(filePath)} must define 'reference_schema'`);
   }
 
-  return {
+  const base: BaseJurisdictionReferenceTemplate = {
     schema_version: schemaVersion,
     document_type: documentType,
-    jurisdiction,
-    entity: 'RD',
     metadata_key_order: metadataKeyOrder,
     reference_schema: referenceSchema
+  };
+
+  if (jurisdiction === 'SE') {
+    const authority = String(record.authority ?? '').trim().toUpperCase();
+    if (authority !== 'RD') {
+      throw new Error(`${toPosixRelative(filePath)} must define authority 'RD'`);
+    }
+    return {
+      ...base,
+      jurisdiction: 'SE',
+      authority: 'RD'
+    };
+  }
+
+  const entity = String(record.entity ?? '').trim().toUpperCase();
+  if (entity !== 'RD') {
+    throw new Error(`${toPosixRelative(filePath)} must define entity 'RD'`);
+  }
+  return {
+    ...base,
+    jurisdiction: 'EU',
+    entity: 'RD'
   };
 }
 

@@ -51,7 +51,6 @@ interface ConceptDoc {
 
 interface ProvisionDoc {
   filePath: string;
-  level: number;
   address: string;
   topics: string[];
   metadata: Record<string, string>;
@@ -94,7 +93,7 @@ interface StructuredEuConceptReferenceBlock {
 
 interface ParsedSwedishReference {
   jurisdiction: "SE";
-  entity: "RD";
+  authority: "RD";
   canonical: string;
   law: string;
   chapter: number;
@@ -164,7 +163,7 @@ function parseSwedishReference(
 
   return {
     jurisdiction: "SE",
-    entity: "RD",
+    authority: "RD",
     canonical: normalized,
     law: match[1],
     chapter: Number.parseInt(match[2], 10),
@@ -1064,21 +1063,35 @@ function parseProvisionDocsFromFiles(files: string[]): ProvisionDoc[] {
     }
 
     const sections = extractMarkdownSections(raw);
-    if (sections.metadata === undefined || sections.topics === undefined) {
+    if (sections.references === undefined || sections.topics === undefined) {
       fail(
         filePath,
-        "provision files must contain '## metadata' and '## topics'"
+        "provision files must contain '## references' and '## topics'"
       );
     }
 
-    const metadata = parseNonEmptyKeyValueSection(
-      sections.metadata,
+    const referenceBlocks = parseSubsectionBlocks(
+      sections.references,
       filePath,
-      "metadata"
+      "references"
+    );
+    const blockEntries = Object.entries(referenceBlocks);
+    if (blockEntries.length !== 1) {
+      fail(filePath, "provision files must contain exactly one '### ref_N' block");
+    }
+
+    const [name, rawBlock] = blockEntries[0];
+    const referenceMetadata = parseNonEmptyKeyValueSection(
+      rawBlock,
+      filePath,
+      `references.${name}`
     );
     let normalizedMetadata: Record<string, string>;
     try {
-      normalizedMetadata = validateReferenceMetadataBlock(metadata, "metadata");
+      normalizedMetadata = validateReferenceMetadataBlock(
+        referenceMetadata,
+        `references.${name}`
+      );
     } catch (error) {
       fail(filePath, error instanceof Error ? error.message : String(error));
     }
@@ -1087,7 +1100,7 @@ function parseProvisionDocsFromFiles(files: string[]): ProvisionDoc[] {
     try {
       canonicalAddress = parseCanonicalReferenceContract(
         normalizedMetadata.address,
-        "metadata.address"
+        `references.${name}.address`
       ).canonical;
     } catch (error) {
       fail(filePath, error instanceof Error ? error.message : String(error));
@@ -1109,7 +1122,6 @@ function parseProvisionDocsFromFiles(files: string[]): ProvisionDoc[] {
 
     docs.push({
       filePath,
-      level: Number.parseInt(normalizedMetadata.level, 10),
       address: canonicalAddress,
       topics,
       metadata: normalizedMetadata,

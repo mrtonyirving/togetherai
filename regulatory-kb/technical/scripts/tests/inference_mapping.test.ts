@@ -60,10 +60,8 @@ test('parseConceptReferencesSection parses strict ref blocks and de-duplicates a
     '### ref_3',
     '',
     '- jurisdiction: SE',
-    '- entity: RD',
+    '- authority: RD',
     '- law: 2017:630',
-    '- level: 2',
-    '- level_label: Paragraf',
     '- chapter: 1',
     '- paragraph: 1',
     '- address: SE,RD,2017:630,k1,p1',
@@ -107,10 +105,8 @@ test('parseConceptReferencesSection enforces strict Sweden metadata hierarchy', 
 ### ref_1
 
 - jurisdiction: SE
-- entity: RD
+- authority: RD
 - law: 2017:630
-- level: 4
-- level_label: Punkt
 - chapter: 1
 - paragraph: 1
 - punkt: 1
@@ -119,7 +115,7 @@ test('parseConceptReferencesSection enforces strict Sweden metadata hierarchy', 
 
   assert.throws(
     () => parseConceptReferencesSection(section, SAMPLE_FILE),
-    /stycke is required for level=4/
+    /punkt requires stycke/
   );
 });
 
@@ -189,15 +185,8 @@ ${strictReferenceSection(['SE,RD,2017:630,k1,p1,s1,pt1'])}
       `
 # Paragraf_1
 
-## metadata
-- jurisdiction: SE
-- entity: RD
-- law: 2017:630
-- level: 2
-- level_label: Paragraf
-- chapter: 1
-- paragraph: 1
-- address: SE,RD,2017:630,k1,p1
+## references
+${strictReferenceSection(['SE,RD,2017:630,k1,p1'])}
 
 ## topics
 - root_concept
@@ -210,16 +199,8 @@ ${strictReferenceSection(['SE,RD,2017:630,k1,p1,s1,pt1'])}
       `
 # Stycke_1
 
-## metadata
-- jurisdiction: SE
-- entity: RD
-- law: 2017:630
-- level: 3
-- level_label: Stycke
-- chapter: 1
-- paragraph: 1
-- stycke: 1
-- address: SE,RD,2017:630,k1,p1,s1
+## references
+${strictReferenceSection(['SE,RD,2017:630,k1,p1,s1'])}
 
 ## topics
 - root_concept
@@ -232,17 +213,8 @@ ${strictReferenceSection(['SE,RD,2017:630,k1,p1,s1,pt1'])}
       `
 # Punkt_1
 
-## metadata
-- jurisdiction: SE
-- entity: RD
-- law: 2017:630
-- level: 4
-- level_label: Punkt
-- chapter: 1
-- paragraph: 1
-- stycke: 1
-- punkt: 1
-- address: SE,RD,2017:630,k1,p1,s1,pt1
+## references
+${strictReferenceSection(['SE,RD,2017:630,k1,p1,s1,pt1'])}
 
 ## topics
 - child_concept
@@ -289,10 +261,8 @@ test('loadInferenceMappingModel rejects mixed strict + legacy reference lines in
 ### ref_1
 
 - jurisdiction: SE
-- entity: RD
+- authority: RD
 - law: 2017:630
-- level: 2
-- level_label: Paragraf
 - chapter: 1
 - paragraph: 1
 - address: SE,RD,2017:630,k1,p1
@@ -382,10 +352,8 @@ test('loadInferenceMappingModel deduplicates normalized references from strict b
 ### ref_1
 
 - jurisdiction: SE
-- entity: RD
+- authority: RD
 - law: 2017:630
-- level: 2
-- level_label: Paragraf
 - chapter: 1
 - paragraph: 1
 - address: SE,RD,2017:630,k1,p1
@@ -393,10 +361,8 @@ test('loadInferenceMappingModel deduplicates normalized references from strict b
 ### ref_2
 
 - jurisdiction: SE
-- entity: RD
+- authority: RD
 - law: 2017:630
-- level: 2
-- level_label: Paragraf
 - chapter: 1
 - paragraph: 1
 - address: SE,RD,2017:630,k1,p1
@@ -409,15 +375,8 @@ test('loadInferenceMappingModel deduplicates normalized references from strict b
       `
 # Paragraf_1
 
-## metadata
-- jurisdiction: SE
-- entity: RD
-- law: 2017:630
-- level: 2
-- level_label: Paragraf
-- chapter: 1
-- paragraph: 1
-- address: SE,RD,2017:630,k1,p1
+## references
+${strictReferenceSection(['SE,RD,2017:630,k1,p1'])}
 
 ## topics
 - dedupe_concept
@@ -458,21 +417,8 @@ ${strictReferenceSection([euAddress])}
       `
 # Paragraph_4
 
-## metadata
-- jurisdiction: EU
-- entity: RD
-- citation: Directive (EU) 2015-849
-- level: 7
-- level_label: Indent
-- chapter: 1
-- section: 2
-- article: 3
-- article_heading: Scope and Definitions
-- paragraph: 4
-- subparagraph: 5
-- point: a
-- indent: ii
-- address: ${euAddress}
+## references
+${strictReferenceSection([euAddress])}
 
 ## topics
 - eu_test_concept
@@ -512,7 +458,10 @@ ${strictReferenceSection(['EU,RD,Directive (EU) 2015-849,ch1,sec1,art1'])}
       `
 # Chapter_1
 
-## metadata
+## references
+
+### ref_1
+
 - jurisdiction: EU
 - entity: RD
 - citation: Directive (EU) 2018-843
@@ -587,15 +536,8 @@ ${strictReferenceSection([address])}
       `
 # Paragraf_1
 
-## metadata
-- jurisdiction: SE
-- entity: RD
-- law: 2017:630
-- level: 2
-- level_label: Paragraf
-- chapter: 1
-- paragraph: 1
-- address: ${address}
+## references
+${strictReferenceSection([address])}
 
 ## topics
 - GENERAL risk Assessment
@@ -811,17 +753,8 @@ ${strictReferenceSection([expectedAddress])}
       `
 # Punkt_3
 
-## metadata
-- jurisdiction: SE
-- entity: RD
-- law: 2017:630
-- level: 4
-- level_label: Punkt
-- chapter: 1
-- paragraph: 2
-- stycke: 3
-- punkt: 3
-- address: ${expectedAddress}
+## references
+${strictReferenceSection([expectedAddress])}
 
 ## topics
 - sample_topic
@@ -834,10 +767,8 @@ ${strictReferenceSection([expectedAddress])}
     assert.equal(model.provisions[0].address, expectedAddress);
     assert.deepEqual(model.provisions[0].metadata, {
       jurisdiction: 'SE',
-      entity: 'RD',
+      authority: 'RD',
       law: '2017:630',
-      level: '4',
-      level_label: 'Punkt',
       chapter: '1',
       paragraph: '2',
       stycke: '3',
