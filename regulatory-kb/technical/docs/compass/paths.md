@@ -1,0 +1,235 @@
+# Paths
+
+Generated inventory of all repository paths.
+
+## Scope
+
+- Source of truth: `git ls-files` (tracked + untracked, excluding ignored files)
+- Update mode: full regeneration (deterministic)
+- Coverage: repository directories and repository files
+
+## Directories (101)
+
+- `.codex/`
+- `.codex/skills/`
+- `.codex/skills/update-compass/`
+- `.codex/skills/update-compass/agents/`
+- `.codex/skills/update-paths/`
+- `.codex/skills/update-paths/agents/`
+- `.github/`
+- `.github/workflows/`
+- `library/`
+- `library/ontologies/`
+- `library/ontologies/document-types/`
+- `library/ontologies/document-types/enforcement-actions/`
+- `library/ontologies/document-types/enforcement-actions/jurisdictions/`
+- `library/ontologies/document-types/enforcement-actions/jurisdictions/se/`
+- `library/ontologies/document-types/enforcement-actions/jurisdictions/se/examples/`
+- `library/ontologies/document-types/enforcement-actions/jurisdictions/se/examples/enforcement-actions/`
+- `library/ontologies/document-types/legislation/`
+- `library/ontologies/document-types/legislation/jurisdictions/`
+- `library/ontologies/document-types/legislation/jurisdictions/EU/`
+- `library/ontologies/document-types/legislation/jurisdictions/Sweden/`
+- `library/taxonomy/`
+- `library/taxonomy/AML/`
+- `library/taxonomy/AML/_templates/`
+- `library/taxonomy/AML/concepts/`
+- `library/taxonomy/AML/concepts/kycc/`
+- `library/taxonomy/AML/map/`
+- `library/taxonomy/AML/map/Denmark/`
+- `library/taxonomy/AML/map/Denmark/legislation/`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Level_2/`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Level_2/Paragraph_1/`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/`
+- `library/taxonomy/AML/map/EU/`
+- `library/taxonomy/AML/map/EU/legislation/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Level_2/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Level_2/Paragraph_1/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Level_2/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Level_2/Paragraph_1/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/`
+- `library/taxonomy/AML/map/Norway/`
+- `library/taxonomy/AML/map/Norway/legislation/`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Level_2/`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Level_2/Paragraph_1/`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/`
+- `library/taxonomy/AML/map/Spain/`
+- `library/taxonomy/AML/map/Spain/legislation/`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Level_2/`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Level_2/Paragraph_1/`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/`
+- `library/taxonomy/AML/map/Sweden/`
+- `library/taxonomy/AML/map/Sweden/legislation/`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Level_3/`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Level_3/Stycke_3/`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Level_3/Stycke_3/Level_4/`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Level_3/Stycke_3/Level_4/Punkt_3/`
+- `library/taxonomy/generated/`
+- `public/`
+- `public/artifacts/`
+- `public/artifacts/ontologies/`
+- `public/artifacts/schemas/`
+- `public/artifacts/schemas/enforcement-actions/`
+- `technical/`
+- `technical/artifacts/`
+- `technical/artifacts/ontologies/`
+- `technical/artifacts/schemas/`
+- `technical/artifacts/schemas/enforcement-actions/`
+- `technical/docs/`
+- `technical/docs/architecture/`
+- `technical/docs/compass/`
+- `technical/docs/migrations/`
+- `technical/schemas/`
+- `technical/schemas/enforcement-actions/`
+- `technical/scripts/`
+- `technical/scripts/lib/`
+- `technical/scripts/lib/scaffold/`
+- `technical/scripts/tests/`
+
+## Files (119)
+
+- `.codex/skills/update-compass/agents/openai.yaml`
+- `.codex/skills/update-compass/SKILL.md`
+- `.codex/skills/update-paths/agents/openai.yaml`
+- `.codex/skills/update-paths/SKILL.md`
+- `.github/workflows/deploy-docs.yml`
+- `.github/workflows/validate.yml`
+- `.gitignore`
+- `.nvmrc`
+- `AGENTS.md`
+- `library/ontologies/document-types/enforcement-actions/jurisdictions/se/enforcement-actions.md`
+- `library/ontologies/document-types/enforcement-actions/jurisdictions/se/examples/enforcement-actions/enforcement-action-Svea-Bank.md`
+- `library/ontologies/document-types/enforcement-actions/jurisdictions/se/examples/enforcement-actions/se-example-001.md`
+- `library/ontologies/document-types/enforcement-actions/jurisdictions/se/examples/enforcement-actions/Svea.md`
+- `library/ontologies/document-types/legislation/jurisdictions/EU/law.json`
+- `library/ontologies/document-types/legislation/jurisdictions/Sweden/law.json`
+- `library/ontologies/document-types/legislation/law.md`
+- `library/taxonomy/AML/_templates/concept_template.md`
+- `library/taxonomy/AML/_templates/enforcement_action_template.md`
+- `library/taxonomy/AML/_templates/provision_template.md`
+- `library/taxonomy/AML/concepts/kycc/kycc.md`
+- `library/taxonomy/AML/map/Denmark/Denmark.md`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Chapter_1.md`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md`
+- `library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md`
+- `library/taxonomy/AML/map/EU/EU.md`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Chapter_1.md`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Chapter_1.md`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md`
+- `library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Chapter_1.md`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md`
+- `library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md`
+- `library/taxonomy/AML/map/Norway/Norway.md`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Chapter_1.md`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md`
+- `library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md`
+- `library/taxonomy/AML/map/Spain/Spain.md`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Kapitel_1.md`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Level_3/Stycke_3/Level_4/Punkt_3/Punkt_3.md`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Level_3/Stycke_3/Stycke_3.md`
+- `library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Paragraf_2.md`
+- `library/taxonomy/AML/map/Sweden/Sweden.md`
+- `library/taxonomy/generated/inference.cypher`
+- `library/taxonomy/generated/relations.generated.ts`
+- `library/taxonomy/index_concepts.md`
+- `library/taxonomy/index_enforcement_actions.md`
+- `library/taxonomy/index_jurisdiction.md`
+- `package-lock.json`
+- `package.json`
+- `public/artifacts/.gitkeep`
+- `public/artifacts/manifest.json`
+- `public/artifacts/ontologies/enforcement-actions.json`
+- `public/artifacts/schemas/enforcement-actions/se.schema.json`
+- `README.md`
+- `technical/artifacts/.gitkeep`
+- `technical/artifacts/manifest.json`
+- `technical/artifacts/ontologies/enforcement-actions.json`
+- `technical/artifacts/schemas/enforcement-actions/se.schema.json`
+- `technical/docs/architecture/content-pipeline.md`
+- `technical/docs/architecture/library-system-intelligence-map.dependencies.adjlist`
+- `technical/docs/architecture/library-system-intelligence-map.inventory.tsv`
+- `technical/docs/architecture/library-system-intelligence-map.md`
+- `technical/docs/architecture/repository-boundaries.md`
+- `technical/docs/architecture/taxonomy-inference-pipeline.md`
+- `technical/docs/compass/index.md`
+- `technical/docs/compass/paths.md`
+- `technical/docs/index.md`
+- `technical/docs/migrations/2026-library-technical-reorg.md`
+- `technical/docs/migrations/typescript-migration.md`
+- `technical/schemas/aml-directive-mapping.schema.json`
+- `technical/schemas/enforcement-actions/dk.schema.json`
+- `technical/schemas/enforcement-actions/es.schema.json`
+- `technical/schemas/enforcement-actions/no.schema.json`
+- `technical/schemas/enforcement-actions/se.schema.json`
+- `technical/schemas/ontology-base.schema.json`
+- `technical/schemas/relation.schema.json`
+- `technical/scripts/build_json.ts`
+- `technical/scripts/build_relation_graph.ts`
+- `technical/scripts/generate_compass.ts`
+- `technical/scripts/generate_cypher.ts`
+- `technical/scripts/generate_inference_relations.ts`
+- `technical/scripts/generate_manifest.ts`
+- `technical/scripts/generate_paths.ts`
+- `technical/scripts/lib/cli_prompts.ts`
+- `technical/scripts/lib/inference_mapping.ts`
+- `technical/scripts/lib/io.ts`
+- `technical/scripts/lib/path_inventory.ts`
+- `technical/scripts/lib/scaffold_catalog.ts`
+- `technical/scripts/lib/scaffold/cli.ts`
+- `technical/scripts/lib/scaffold/handlers.ts`
+- `technical/scripts/lib/scaffold/indexes.ts`
+- `technical/scripts/lib/scaffold/paths.ts`
+- `technical/scripts/lib/scaffold/prompts.ts`
+- `technical/scripts/lib/scaffold/provision_files.ts`
+- `technical/scripts/lib/scaffold/references.ts`
+- `technical/scripts/lib/scaffold/types.ts`
+- `technical/scripts/lib/schema.ts`
+- `technical/scripts/lib/structured_markdown.ts`
+- `technical/scripts/publish_artifacts.ts`
+- `technical/scripts/scaffold.ts`
+- `technical/scripts/sync_schemas.ts`
+- `technical/scripts/sync_taxonomy.ts`
+- `technical/scripts/tests/cli_prompts.test.ts`
+- `technical/scripts/tests/inference_mapping.test.ts`
+- `technical/scripts/tests/scaffold_catalog.test.ts`
+- `technical/scripts/tests/scaffold_cli.test.ts`
+- `technical/scripts/tests/scaffold_handlers_back.test.ts`
+- `technical/scripts/tests/scaffold_indexes.test.ts`
+- `technical/scripts/tests/scaffold_prompts_back.test.ts`
+- `technical/scripts/tests/scaffold_references.test.ts`
+- `technical/scripts/tests/scaffold.test.ts`
+- `technical/scripts/tests/structured_markdown.test.ts`
+- `technical/scripts/tests/test_fs.ts`
+- `technical/scripts/validate_ontology.ts`
+- `technical/scripts/validate_taxonomy_mappings.ts`
+- `technical/scripts/verify_inference_equivalence.ts`
+- `tsconfig.json`

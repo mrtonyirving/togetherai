@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "enforcement-actions - SE",
+  "type": "object",
+  "additionalProperties": false,
+  "metadata": {
+    "schema_version": "2.0",
+    "document_type": "enforcement-action",
+    "jurisdiction": "SE",
+    "regulatory_authority": "Finansinspektionen"
+  },
+  "properties": {
+    "diarienummer": {
+      "type": "string",
+      "description": "Authority case reference number"
+    },
+    "regulatory_authority": {
+      "type": "string",
+      "description": "Issuing authority"
+    },
+    "affected_entity_name": {
+      "type": "string",
+      "description": "Legal name of affected entity"
+    },
+    "entity_type": {
+      "type": "string",
+      "description": "Entity classification"
+    },
+    "decision_type": {
+      "type": "string",
+      "enum": [
+        "fine",
+        "warning",
+        "warning_with_fine",
+        "revocation",
+        "remark",
+        "injunction"
+      ],
+      "description": "Enforcement decision type"
+    },
+    "fine": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ],
+      "description": "Whether the decision includes a fine"
+    },
+    "fine_amount": {
+      "type": "number",
+      "description": "Required when fine=yes"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 uppercase currency code; required when fine=yes",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "affected_regulations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "jurisdiction": {
+            "type": "string",
+            "description": "Jurisdiction of the regulation"
+          },
+          "entity": {
+            "type": "string",
+            "description": "Legal instrument entity"
+          },
+          "name": {
+            "type": "string",
+            "description": "Regulation identifier or title"
+          },
+          "affected_parts_of_regulation": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Specific parts of the regulation"
+          }
+        },
+        "required": [
+          "jurisdiction",
+          "entity",
+          "name",
+          "affected_parts_of_regulation"
+        ]
+      },
+      "description": "List of affected regulations"
+    }
+  },
+  "required": [
+    "diarienummer",
+    "regulatory_authority",
+    "affected_entity_name",
+    "entity_type",
+    "decision_type",
+    "fine",
+    "affected_regulations"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "fine": {
+            "const": "no"
+          }
+        },
+        "required": [
+          "fine"
+        ]
+      },
+      "then": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "fine_amount"
+              ]
+            },
+            {
+              "required": [
+                "currency"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "fine": {
+            "const": "yes"
+          }
+        },
+        "required": [
+          "fine"
+        ]
+      },
+      "then": {
+        "required": [
+          "fine_amount",
+          "currency"
+        ]
+      }
+    }
+  ]
+}

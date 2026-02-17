@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update Paths"
+  short_description: "Regenerate tracked paths for this repo"
+  default_prompt: "Regenerate compass/paths.md by running npm run compass:update-paths, then summarize added or removed paths."

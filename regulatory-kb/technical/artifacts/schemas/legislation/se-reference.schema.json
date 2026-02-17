@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Sweden legislation reference metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "jurisdiction": {
+      "type": "string",
+      "const": "SE"
+    },
+    "entity": {
+      "type": "string",
+      "const": "RD"
+    },
+    "law": {
+      "type": "string",
+      "pattern": "^\\d{4}:\\d+$"
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "level_label": {
+      "type": "string",
+      "enum": [
+        "Kapitel",
+        "Paragraf",
+        "Stycke",
+        "Punkt"
+      ]
+    },
+    "chapter": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "paragraph": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "stycke": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "punkt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "address": {
+      "type": "string",
+      "pattern": "^SE,RD,\\d{4}:\\d+,k\\d+(?:,p\\d+(?:,s\\d+(?:,pt\\d+)?)?)?$"
+    }
+  },
+  "required": [
+    "jurisdiction",
+    "entity",
+    "law",
+    "level",
+    "level_label",
+    "chapter",
+    "address"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "level": {
+            "const": 1
+          }
+        },
+        "required": [
+          "level"
+        ]
+      },
+      "then": {
+        "properties": {
+          "level_label": {
+            "const": "Kapitel"
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "paragraph"
+              ]
+            },
+            {
+              "required": [
+                "stycke"
+              ]
+            },
+            {
+              "required": [
+                "punkt"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "level": {
+            "const": 2
+          }
+        },
+        "required": [
+          "level"
+        ]
+      },
+      "then": {
+        "required": [
+          "paragraph"
+        ],
+        "properties": {
+          "level_label": {
+            "const": "Paragraf"
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "stycke"
+              ]
+            },
+            {
+              "required": [
+                "punkt"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "level": {
+            "const": 3
+          }
+        },
+        "required": [
+          "level"
+        ]
+      },
+      "then": {
+        "required": [
+          "paragraph",
+          "stycke"
+        ],
+        "properties": {
+          "level_label": {
+            "const": "Stycke"
+          }
+        },
+        "not": {
+          "required": [
+            "punkt"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "level": {
+            "const": 4
+          }
+        },
+        "required": [
+          "level"
+        ]
+      },
+      "then": {
+        "required": [
+          "paragraph",
+          "stycke",
+          "punkt"
+        ],
+        "properties": {
+          "level_label": {
+            "const": "Punkt"
+          }
+        }
+      }
+    }
+  ]
+}

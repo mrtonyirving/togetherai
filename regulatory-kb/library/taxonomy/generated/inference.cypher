@@ -1,0 +1,9 @@
+MERGE p=(a:Topic {concept: "General_Risk_Assessment_Product"})-[:IS_SUBTOPIC]->(b:Topic {concept: "General_Risk_Assessment"}) RETURN p;
+MERGE p=(r:Reference {address: "SE,RD,2017:630,k1,p1"})-[:HAS_TOPIC]->(t:Topic {concept: "General_Risk_Assessment"}) RETURN p;
+MERGE p=(r:Reference {address: "SE,RD,2017:630,k1,p1,s1"})-[:HAS_TOPIC]->(t:Topic {concept: "General_Risk_Assessment"}) RETURN p;
+MERGE p=(r:Reference {address: "SE,RD,2017:630,k1,p1,s1,pt1"})-[:HAS_TOPIC]->(t:Topic {concept: "General_Risk_Assessment_Product"}) RETURN p;
+MERGE p=(a:Reference {address: "SE,FI,SB,23-12345"})-[:HAS_BROKEN_RULE]->(b:Reference {address: "SE,RD,2017:630,k1,p1"}) RETURN p;
+MERGE p=(a:Reference {address: "SE,FI,SB,23-12345"})-[:HAS_BROKEN_RULE]->(b:Reference {address: "SE,RD,2017:630,k1,p1,s1"}) RETURN p;
+MERGE p=(a:Reference {address: "SE,FI,SB,23-13249"})-[:HAS_BROKEN_RULE]->(b:Reference {address: "SE,RD,2017:630,k1,p1"}) RETURN p;
+MERGE p=(a:Reference {address: "SE,FI,SB,23-13249"})-[:HAS_BROKEN_RULE]->(b:Reference {address: "SE,RD,2017:630,k1,p1,s1"}) RETURN p;
+MERGE p=(a:Reference {address: "SE,FI,SB,23-13249"})-[:HAS_BROKEN_RULE]->(b:Reference {address: "SE,RD,2017:630,k1,p1,s1,pt1"}) RETURN p;

@@ -1,35 +1,56 @@
 # Regulatory Knowledge Base
 
-Ontologies, inter-document relations, and source registries for regulatory horizon scanning.
+Markdown-first regulatory ontology workspace with generated inference relations.
 
-## Quick start
+## Start Here
 
-**View the docs**: [https://YOUR_ORG.github.io/regulatory-kb/](https://YOUR_ORG.github.io/regulatory-kb/)
+- Domain taxonomy: [library/taxonomy/index_concepts.md](library/taxonomy/index_concepts.md)
+- Technical docs: [technical/docs/index.md](technical/docs/index.md)
 
-**Edit content**: Navigate to any `.md` file in `docs/` and click the pencil icon in GitHub.
-
-**Local preview**:
+## Local development
 
 ```bash
-pip install -r requirements.txt
-mkdocs serve
+npm install
+npm run kb:build-all
 ```
 
-## Structure
+## Build and validation
+
+```bash
+npm run kb:check
+```
+
+## Taxonomy inference workflow
+
+```bash
+# validate cross-document mapping integrity
+npm run taxonomy:validate-links
+
+# generate TypeScript relation tuples from markdown
+npm run taxonomy:generate-relations
+
+# generate Cypher MERGE statements from relation tuples
+npm run kb:generate-cypher
+
+# verify generated relations are equivalent to inference.ts behavior
+npm run kb:verify-inference-equivalence
+```
+
+## Repository structure
 
 | Directory | Purpose |
 |---|---|
-| `docs/ontologies/` | Ontology definitions by document type and jurisdiction |
-| `docs/relations/` | Inter-document relation type definitions |
-| `docs/jurisdictions/` | Jurisdiction profiles (authorities, legal frameworks) |
-| `docs/sources/` | Registry of regulatory sources and their crawl configurations |
-| `schemas/` | Shared JSON schemas |
-| `scripts/` | Build and validation scripts |
+| `library/` | Markdown-only ontology source of truth |
+| `technical/scripts/` | TypeScript validation/build scripts |
+| `technical/artifacts/` | Generated machine artifacts |
+| `public/artifacts/` | Published artifact mirror |
 
 ## How it works
 
-Every ontology file is a Markdown file with YAML frontmatter. The frontmatter is the structured, machine-readable contract consumed by crawlers and the analysis engine. The Markdown body is human-readable documentation for domain experts.
+Markdown tables in `library/ontologies/document-types/enforcement-actions/jurisdictions/se/enforcement-actions.md`
+are parsed into schema and ontology artifacts under `technical/artifacts/`, then mirrored to `public/artifacts/`.
 
-On push to `main`, two things happen:
-1. MkDocs builds and deploys a readable site to GitHub Pages
-2. A build script extracts all frontmatter into consolidated JSON files (available as GitHub Actions artifacts)
+Taxonomy mappings in `library/taxonomy/AML/` are validated and transformed into:
+
+- `library/taxonomy/generated/relations.generated.ts`
+- `library/taxonomy/generated/inference.cypher`

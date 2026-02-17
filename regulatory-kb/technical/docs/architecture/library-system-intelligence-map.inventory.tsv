@@ -1,0 +1,115 @@
+path	scope	kind	ext	bytes	lines	empty
+.github/workflows/deploy-docs.yml	.github	file	yml	570	31	no
+.github/workflows/validate.yml	.github	file	yml	604	32	no
+AGENTS.md	root-config	file	md	991	13	no
+README.md	root-config	file	md	1534	56	no
+library/ontologies/document-types/enforcement-actions/jurisdictions/se/enforcement-actions.md	library	file	md	1789	95	no
+library/ontologies/document-types/enforcement-actions/jurisdictions/se/examples/enforcement-actions/Svea.md	library	file	md	1641	118	no
+library/ontologies/document-types/enforcement-actions/jurisdictions/se/examples/enforcement-actions/Svea_bank.md	library	file	md	1889	100	no
+library/ontologies/document-types/enforcement-actions/jurisdictions/se/examples/enforcement-actions/enforcement-action-Svea-Bank.md	library	file	md	836	46	no
+library/ontologies/document-types/enforcement-actions/jurisdictions/se/examples/enforcement-actions/se-example-001.md	library	file	md	699	37	no
+library/ontologies/document-types/legislation/jurisdictions/EU/law.json	library	file	json	1349	70	no
+library/ontologies/document-types/legislation/jurisdictions/Sweden/law.json	library	file	json	1638	79	no
+library/ontologies/document-types/legislation/law.md	library	file	md	288	11	no
+library/taxonomy/AML/_templates/concept_template.md	library	file	md	199	18	no
+library/taxonomy/AML/_templates/enforcement_action_template.md	library	file	md	349	28	no
+library/taxonomy/AML/_templates/provision_template.md	library	file	md	145	16	no
+library/taxonomy/AML/concepts/general_risk_assessment/general_risk_assessment.md	library	file	md	250	16	no
+library/taxonomy/AML/concepts/general_risk_assessment/subconcepts/general_risk_assessment_product/general_risk_assessment_product.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Denmark/Denmark.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Chapter_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Denmark/legislation/Hvidvaskloven (Lov nr. 651 af 8. juni 2017, as amended)/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/EU/EU.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Chapter_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/EU/legislation/Directive (EU) 2015-849/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Chapter_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/EU/legislation/Directive (EU) 2018-843/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Norway/Norway.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Chapter_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Norway/legislation/Hvitvaskingsloven (LOV-2018-06-01-23)/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Spain/Spain.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Chapter_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Level_2/Paragraph_1/Level_3/Stycke_1/Stycke_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Spain/legislation/Ley 10-2010, de 28 de abril/Level_1/Chapter_1/Level_2/Paragraph_1/Paragraph_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Sweden/Sweden.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Kapitel_1.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Level_3/Stycke_3/Level_4/Punkt_3/Punkt_3.md	library	file	md	204	15	no
+library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Level_3/Stycke_3/Stycke_3.md	library	file	md	0	0	yes
+library/taxonomy/AML/map/Sweden/legislation/2017:630/Level_1/Kapitel_1/Level_2/Paragraf_2/Paragraf_2.md	library	file	md	0	0	yes
+library/taxonomy/generated/inference.cypher	library	file	cypher	1203	9	no
+library/taxonomy/generated/relations.generated.ts	library	file	ts	1399	63	no
+library/taxonomy/index_concepts.md	library	file	md	286	4	no
+library/taxonomy/index_enforcement_actions.md	library	file	md	304	4	no
+library/taxonomy/index_jurisdiction.md	library	file	md	3453	40	no
+
+package.json	root-config	file	json	2206	42	no
+public/artifacts/manifest.json	public	file	json	256	11	no
+public/artifacts/ontologies/enforcement-actions.json	public	file	json	3128	120	no
+public/artifacts/schemas/enforcement-actions/se.schema.json	public	file	json	3298	150	no
+technical/artifacts/manifest.json	technical	file	json	256	11	no
+technical/artifacts/ontologies/enforcement-actions.json	technical	file	json	3128	120	no
+technical/artifacts/schemas/enforcement-actions/se.schema.json	technical	file	json	3298	150	no
+technical/docs/architecture/content-pipeline.md	technical	file	md	828	27	no
+technical/docs/architecture/library-system-intelligence-map.dependencies.adjlist	technical	file	adjlist	24486	230	no
+technical/docs/architecture/library-system-intelligence-map.inventory.tsv	technical	file	tsv	6824	66	no
+technical/docs/architecture/library-system-intelligence-map.md	technical	file	md	83064	1469	no
+technical/docs/architecture/repository-boundaries.md	technical	file	md	791	32	no
+technical/docs/architecture/taxonomy-inference-pipeline.md	technical	file	md	1798	37	no
+technical/docs/compass/index.md	technical	file	md	2143	91	no
+technical/docs/compass/paths.md	technical	file	md	16262	258	no
+technical/docs/index.md	technical	file	md	575	19	no
+technical/docs/migrations/2026-library-technical-reorg.md	technical	file	md	1151	34	no
+technical/docs/migrations/typescript-migration.md	technical	file	md	781	25	no
+technical/schemas/aml-directive-mapping.schema.json	technical	file	json	10973	375	no
+technical/schemas/enforcement-actions/dk.schema.json	technical	file	json	2988	73	no
+technical/schemas/enforcement-actions/es.schema.json	technical	file	json	2984	73	no
+technical/schemas/enforcement-actions/no.schema.json	technical	file	json	2991	73	no
+technical/schemas/enforcement-actions/se.schema.json	technical	file	json	2987	73	no
+technical/schemas/ontology-base.schema.json	technical	file	json	2403	85	no
+technical/schemas/relation.schema.json	technical	file	json	1633	52	no
+technical/scripts/build_json.ts	technical	file	ts	3861	150	no
+technical/scripts/build_relation_graph.ts	technical	file	ts	6114	197	no
+technical/scripts/generate_compass.ts	technical	file	ts	4616	162	no
+technical/scripts/generate_cypher.ts	technical	file	ts	2002	58	no
+technical/scripts/generate_inference_relations.ts	technical	file	ts	2274	88	no
+technical/scripts/generate_manifest.ts	technical	file	ts	2145	67	no
+technical/scripts/generate_paths.ts	technical	file	ts	1929	66	no
+technical/scripts/lib/cli_prompts.ts	technical	file	ts	12845	508	no
+technical/scripts/lib/inference_mapping.ts	technical	file	ts	55135	1991	no
+technical/scripts/lib/io.ts	technical	file	ts	2282	102	no
+technical/scripts/lib/path_inventory.ts	technical	file	ts	2131	82	no
+technical/scripts/lib/scaffold/cli.ts	technical	file	ts	2378	84	no
+technical/scripts/lib/scaffold/handlers.ts	technical	file	ts	33992	1212	no
+technical/scripts/lib/scaffold/indexes.ts	technical	file	ts	10091	353	no
+technical/scripts/lib/scaffold/paths.ts	technical	file	ts	1201	36	no
+technical/scripts/lib/scaffold/prompts.ts	technical	file	ts	23600	826	no
+technical/scripts/lib/scaffold/provision_files.ts	technical	file	ts	2767	104	no
+technical/scripts/lib/scaffold/references.ts	technical	file	ts	6642	241	no
+technical/scripts/lib/scaffold/types.ts	technical	file	ts	694	42	no
+technical/scripts/lib/scaffold_catalog.ts	technical	file	ts	18828	649	no
+technical/scripts/lib/schema.ts	technical	file	ts	3439	116	no
+technical/scripts/lib/structured_markdown.ts	technical	file	ts	13082	486	no
+technical/scripts/publish_artifacts.ts	technical	file	ts	636	24	no
+technical/scripts/scaffold.ts	technical	file	ts	189	6	no
+technical/scripts/sync_schemas.ts	technical	file	ts	5406	202	no
+technical/scripts/sync_taxonomy.ts	technical	file	ts	26686	897	no
+technical/scripts/tests/cli_prompts.test.ts	technical	file	ts	11275	375	no
+technical/scripts/tests/inference_mapping.test.ts	technical	file	ts	15618	655	no
+technical/scripts/tests/scaffold.test.ts	technical	file	ts	5385	159	no
+technical/scripts/tests/scaffold_catalog.test.ts	technical	file	ts	5349	158	no
+technical/scripts/tests/scaffold_cli.test.ts	technical	file	ts	1008	38	no
+technical/scripts/tests/scaffold_handlers_back.test.ts	technical	file	ts	9353	272	no
+technical/scripts/tests/scaffold_indexes.test.ts	technical	file	ts	5359	153	no
+technical/scripts/tests/scaffold_prompts_back.test.ts	technical	file	ts	8139	238	no
+technical/scripts/tests/scaffold_references.test.ts	technical	file	ts	2988	93	no
+technical/scripts/tests/structured_markdown.test.ts	technical	file	ts	7927	294	no
+technical/scripts/tests/test_fs.ts	technical	file	ts	811	31	no
+technical/scripts/validate_ontology.ts	technical	file	ts	17184	560	no
+technical/scripts/validate_taxonomy_mappings.ts	technical	file	ts	496	15	no
+technical/scripts/verify_inference_equivalence.ts	technical	file	ts	4347	129	no
+tsconfig.json	root-config	file	json	378	16	no
+/Users/aran.berzingi/togetherai/inference.ts	external-coupled	file	ts	2265	72	no

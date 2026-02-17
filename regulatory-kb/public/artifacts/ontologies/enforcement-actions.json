@@ -1,0 +1,120 @@
+[
+  {
+    "schema_version": "2.0",
+    "document_type": "enforcement-action",
+    "jurisdiction": "SE",
+    "regulatory_authority": "Finansinspektionen",
+    "fields": {
+      "diarienummer": {
+        "required": true,
+        "description": "Authority case reference number",
+        "type": "string"
+      },
+      "regulatory_authority": {
+        "required": true,
+        "description": "Issuing authority",
+        "type": "string"
+      },
+      "affected_entity_name": {
+        "required": true,
+        "description": "Legal name of affected entity",
+        "type": "string"
+      },
+      "entity_type": {
+        "required": true,
+        "description": "Entity classification",
+        "type": "string"
+      },
+      "decision_type": {
+        "required": true,
+        "description": "Enforcement decision type",
+        "type": "enum",
+        "values": [
+          "fine",
+          "warning",
+          "warning_with_fine",
+          "revocation",
+          "remark",
+          "injunction"
+        ]
+      },
+      "fine": {
+        "required": true,
+        "description": "Whether the decision includes a fine",
+        "type": "enum",
+        "values": [
+          "yes",
+          "no"
+        ]
+      },
+      "fine_amount": {
+        "required": false,
+        "description": "Required when fine=yes",
+        "type": "number"
+      },
+      "currency": {
+        "required": false,
+        "description": "ISO 4217 uppercase currency code; required when fine=yes",
+        "type": "string"
+      },
+      "affected_regulations": {
+        "required": true,
+        "description": "List of affected regulations",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "sub_fields": [
+            {
+              "name": "jurisdiction",
+              "required": true,
+              "description": "Jurisdiction of the regulation",
+              "type": "string"
+            },
+            {
+              "name": "entity",
+              "required": true,
+              "description": "Legal instrument entity",
+              "type": "string"
+            },
+            {
+              "name": "name",
+              "required": true,
+              "description": "Regulation identifier or title",
+              "type": "string"
+            },
+            {
+              "name": "affected_parts_of_regulation",
+              "required": true,
+              "description": "Specific parts of the regulation",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "validation_rules": [
+      {
+        "when_field": "fine",
+        "when_value": "no",
+        "fields": [
+          "fine_amount",
+          "currency"
+        ],
+        "mode": "absent"
+      },
+      {
+        "when_field": "fine",
+        "when_value": "yes",
+        "fields": [
+          "fine_amount",
+          "currency"
+        ],
+        "mode": "required"
+      }
+    ],
+    "_source_file": "library/ontologies/document-types/enforcement-actions/jurisdictions/se/enforcement-actions.md"
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "name": "regulatory-kb",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --test-concurrency=1 --import tsx technical/scripts/tests/*.test.ts",
+    "lint": "npm run typecheck",
+    "kb:build-json": "tsx technical/scripts/build_json.ts",
+    "kb:sync-schemas": "tsx technical/scripts/sync_schemas.ts",
+    "kb:validate": "tsx technical/scripts/validate_ontology.ts",
+    "kb:build-graph": "tsx technical/scripts/build_relation_graph.ts",
+    "kb:manifest": "tsx technical/scripts/generate_manifest.ts",
+    "kb:publish-artifacts": "tsx technical/scripts/publish_artifacts.ts",
+    "kb:build-all": "npm run kb:sync-schemas && npm run kb:build-json && npm run kb:manifest && npm run kb:publish-artifacts",
+    "kb:check": "npm run kb:validate && npm run kb:sync-schemas -- --check && npm run kb:build-json -- --check && npm run kb:manifest -- --check && npm run taxonomy:check && npm run taxonomy:validate-links && npm run taxonomy:generate-relations -- --check && npm run kb:generate-cypher -- --check && npm run kb:verify-inference-equivalence",
+    "taxonomy:sync": "tsx technical/scripts/sync_taxonomy.ts",
+    "taxonomy:check": "tsx technical/scripts/sync_taxonomy.ts --check",
+    "taxonomy:validate-links": "tsx technical/scripts/validate_taxonomy_mappings.ts",
+    "taxonomy:generate-relations": "tsx technical/scripts/generate_inference_relations.ts",
+    "taxonomy:migrate-reference-schema": "tsx technical/scripts/migrate_reference_schema.ts",
+    "taxonomy:scaffold": "tsx technical/scripts/scaffold.ts",
+    "kb:generate-cypher": "tsx technical/scripts/generate_cypher.ts",
+    "kb:verify-inference-equivalence": "tsx technical/scripts/verify_inference_equivalence.ts",
+    "compass:update-paths": "tsx technical/scripts/generate_paths.ts",
+    "compass:update-index": "tsx technical/scripts/generate_compass.ts",
+    "compass:update-all": "npm run compass:update-paths && npm run compass:update-index"
+  },
+  "devDependencies": {
+    "@inquirer/prompts": "^8.2.1",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^22.10.1",
+    "fast-glob": "^3.3.3",
+    "fs-extra": "^11.2.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "zod": "^3.24.1"
+  }
+}

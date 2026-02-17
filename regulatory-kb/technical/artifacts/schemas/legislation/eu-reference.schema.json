@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EU legislation reference metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "jurisdiction": {
+      "type": "string",
+      "const": "EU"
+    },
+    "entity": {
+      "type": "string",
+      "const": "RD"
+    },
+    "citation": {
+      "type": "string",
+      "pattern": "^[^,]+$"
+    },
+    "level": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "level_label": {
+      "type": "string",
+      "enum": [
+        "Citation",
+        "Recitals",
+        "Chapter",
+        "Section",
+        "Article",
+        "Paragraph",
+        "Subparagraph",
+        "Point",
+        "Indent"
+      ]
+    },
+    "recitals": {
+      "type": "string",
+      "pattern": "^\\d+(?:-\\d+)?$"
+    },
+    "chapter": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "section": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "article": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "article_heading": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
+    "paragraph": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "subparagraph": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "point": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+$"
+    },
+    "indent": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+$"
+    },
+    "address": {
+      "type": "string",
+      "pattern": "^EU,RD,[^,]+(?:,.+)?$"
+    }
+  },
+  "required": [
+    "jurisdiction",
+    "entity",
+    "citation",
+    "level",
+    "level_label",
+    "address"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "recitals"
+        ]
+      },
+      "then": {
+        "properties": {
+          "level": {
+            "const": 1
+          },
+          "level_label": {
+            "const": "Recitals"
+          }
+        },
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "chapter"
+              ]
+            },
+            {
+              "required": [
+                "section"
+              ]
+            },
+            {
+              "required": [
+                "article"
+              ]
+            },
+            {
+              "required": [
+                "article_heading"
+              ]
+            },
+            {
+              "required": [
+                "paragraph"
+              ]
+            },
+            {
+              "required": [
+                "subparagraph"
+              ]
+            },
+            {
+              "required": [
+                "point"
+              ]
+            },
+            {
+              "required": [
+                "indent"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "section"
+        ]
+      },
+      "then": {
+        "required": [
+          "chapter"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "article"
+        ]
+      },
+      "then": {
+        "required": [
+          "chapter"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "article_heading"
+        ]
+      },
+      "then": {
+        "required": [
+          "article"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "paragraph"
+        ]
+      },
+      "then": {
+        "required": [
+          "article"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "subparagraph"
+        ]
+      },
+      "then": {
+        "required": [
+          "paragraph"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "point"
+        ]
+      },
+      "then": {
+        "required": [
+          "paragraph"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "indent"
+        ]
+      },
+      "then": {
+        "required": [
+          "point"
+        ]
+      }
+    }
+  ]
+}

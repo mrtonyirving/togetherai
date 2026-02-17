@@ -1,4 +1,4 @@
-name: Deploy docs
+name: Build Artifacts
 
 on:
   push:
@@ -6,33 +6,26 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.12"
+          node-version: "20"
+          cache: "npm"
 
-      - run: pip install -r requirements.txt
+      - name: Install dependencies
+        run: npm ci
 
-      - run: mkdocs build --strict
+      - name: Build knowledge artifacts
+        run: npm run kb:build-all
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Upload machine artifacts
+        uses: actions/upload-artifact@v4
         with:
-          path: site/
-
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          name: kb-artifacts
+          path: technical/artifacts/

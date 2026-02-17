@@ -1,0 +1,4 @@
+interface:
+  display_name: "Update Compass"
+  short_description: "Regenerate compass index for this repo"
+  default_prompt: "Regenerate compass/index.md by running npm run compass:update-index, then summarize changed sections."
